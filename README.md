@@ -1,47 +1,107 @@
-#  BurpJSLinkFinder - Find links within JS files.
-![Follow on Twitter](https://img.shields.io/twitter/follow/frans_initroot?label=Follow%20&style=social)
-![GitHub last commit](https://img.shields.io/github/last-commit/initroot/BurpJSLinkFinder)
-![GitHub stars](https://img.shields.io/github/stars/initroot/BurpJSLinkFinder)
+# BurpJS LinkFinder v2
 
+BurpJS LinkFinder v2 is a **Burp Suite extension** that passively scans JavaScript files to extract endpoints, URLs, and filenames.  
+It helps penetration testers and security researchers quickly discover hidden application paths and additional attack surface embedded in JS responses.
 
-Burp Extension for a passive scanning JS files for endpoint links. 
- - Export results the text file
- - Exclude specific 'js' files e.g. jquery, google-analytics
- 
-Copyright (c) 2022 Frans Hendrik Botes
+Inspired by [GerbenJavado/LinkFinder](https://github.com/GerbenJavado/LinkFinder) and adapted for Burp Suite as a passive scanner extension:contentReference[oaicite:0]{index=0}.
 
+---
 
-Credit to https://github.com/GerbenJavado/LinkFinder for the idea and regex
+## ✨ Features
 
-##  Disclaimer
-I take not responsibility for your use of the software. Development is done in my personal capacity and carry no affiliation to my work.
+- **Passive Scanning**  
+  Automatically analyzes JS files passing through Burp’s proxy or scanner, no manual triggering required.
 
-## Setup
-For use with the professional version of Burp Suite. Ensure you have JPython loaded and setup
-before installing.
+- **Regex-based Link Discovery**  
+  Uses a robust default regex to extract:
+  - Full URLs (`http://`, `https://`, `//`)
+  - Relative paths (`/`, `../`, `./`)
+  - Common file types (`.php`, `.asp`, `.jsp`, `.json`, `.html`, `.js`, `.xml`, etc.)
 
-You can modify the exclusion list by updating the strings on line 50.
-Currently any strings that include the included words will not be analysed.
+- **Custom Regex Support**  
+  Add your own regex patterns via the **Settings** tab.
 
-```
-# Needed params
+- **Exclusion List**  
+  Skip common libraries such as `jquery`, `google-analytics`, `modernizr`, etc. (fully customizable in the UI).
 
-JSExclusionList = ['jquery', 'google-analytics','gpt.js','modernizr','gtm','fbevents']
+- **Organized Output**  
+  Separate panes for:
+  - **Log**: scanner messages and activity  
+  - **Filenames**: discovered file names  
+  - **Mapped URLs**: fully normalized URLs
 
-```
+- **Filtering in the UI**  
+  Each pane supports real-time filtering with text boxes.
 
-## Usage
-Instructions based on the most recent versions of Burp. The following configurations are advised:
-- Set target scope under Target --> Scope --> Advance scope --> Keyword
-- Set scanners to only scan scoped items e.g. Dashboard --> Live scanner and Live audit set URL Scope to Suite Scope
+- **Export & Clear**  
+  Export discovered data to a file or clear panes as needed.
 
-##  Screenshot
-![Screen Recording 2021-12-31 at 10 43 36](https://user-images.githubusercontent.com/954507/147813394-50564827-d017-446d-8bdc-b21022da2114.gif)
+- **Site Map Integration**  
+  One-click option to add discovered URLs to Burp’s Site Map for deeper analysis.
 
-## Update
-- Added swing memory management  (14/06/2019)
-- Added exclusion list on line 33 of code ['jquery', 'google-analytics','gpt.js'] (14/06/2019)
-- Added ability to export files (15/06/2019)
-- Added filename extracter pane (31/12/2021)
-- Added URL mapper, very basic at this time (31/12/2021)
-- Minor cosmetic changes on the log for quicker copy paste (31/12/2021)
+---
+
+## 🖥️ Screenshots
+
+*(Add screenshots here after running in Burp — e.g., showing the custom tab, log output, and mapped URLs)*
+
+---
+
+## 📦 Installation
+
+### Requirements
+- [Burp Suite Community or Professional](https://portswigger.net/burp)  
+- [Jython standalone 2.7.x JAR](https://www.jython.org/download) (needed to run Python extensions in Burp)  
+
+### Steps
+1. Download the latest [release](https://github.com/your-username/JSLinkFinder_Burpv2/releases) or clone this repo.
+2. Open Burp → **Extender** → **Options** → set the path to your `jython-standalone-2.7.x.jar`.
+3. Go to **Extender** → **Extensions** → **Add**:
+   - Extension type: **Python**
+   - Extension file: select `FransLinkfinder.py` (or your renamed file)
+4. After loading, a new tab **BurpJSLinkFinder** will appear.
+
+---
+
+## ⚙️ Usage
+
+1. Browse the target application through Burp Proxy as usual.
+2. The extension will passively scan all `.js` files.
+3. Open the **BurpJSLinkFinder** tab to view:
+   - Logs of processed JS files
+   - Extracted filenames
+   - Fully mapped URLs
+4. Use filters in each pane to quickly find relevant entries.
+5. Optionally, export results to a file or map them directly to Burp’s Site Map.
+
+---
+
+## 🛠️ Settings
+
+- **Scope checkbox**: restrict scanning only to in-scope items.  
+- **Exclusion List**: specify substrings to ignore (e.g., third-party libraries).  
+- **Custom Regex Patterns**: define additional regex patterns (one per line) for advanced discovery.
+
+---
+
+## 🚧 Limitations
+
+- Runs in **Jython**, so syntax must remain Python 2.7–compatible.
+- Regex may produce false positives or miss heavily obfuscated JS.
+- Large JS files may impact performance.
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.  
+© 2022 Frans Hendrik Botes.  
+
+See the [LICENSE](LICENSE) file for full text.  
+
+---
+
+## 🙏 Credits
+
+- [Frans Hendrik Botes](https://github.com/InitRoot) — original author  
+- [GerbenJavado/LinkFinder](https://github.com/GerbenJavado/LinkFinder) — inspiration for regex and methodology  
