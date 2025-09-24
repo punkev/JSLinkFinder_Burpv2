@@ -3,7 +3,7 @@
 BurpJS LinkFinder v2 is a **Burp Suite extension** that passively scans JavaScript files to extract endpoints, URLs, and filenames.  
 It helps penetration testers and security researchers quickly discover hidden application paths and additional attack surface embedded in JS responses.
 
-Inspired by [GerbenJavado/LinkFinder](https://github.com/GerbenJavado/LinkFinder) and adapted for Burp Suite as a passive scanner extension:contentReference[oaicite:0]{index=0}.
+Inspired by [GerbenJavado/LinkFinder](https://github.com/GerbenJavado/LinkFinder) and adapted for Burp Suite as a passive scanner extension
 
 ---
 
